@@ -18,6 +18,8 @@ class RedditScrapper(Scrapper):
         return str((self.save_path / filename).absolute())
 
     def get_next_page_url(self):
+        if self.page is None:
+            return self.url
         next_button = self.page.find_all("span", class_="next-button")[0]
         return next_button.a.attrs['href']
 

@@ -1,6 +1,9 @@
+import io
 import pathlib
 
 import cv2
+import numpy as np
+
 
 # default values, not very pretty
 WIDTH = 1920
@@ -64,5 +67,14 @@ def museumify(img, title, dark=.8, max_ratio=.9):
     """
     Put image on dilated background and add caption
     """
-    pretty_image = combine_images(image, dark=dark, max_ratio=max_ratio)
+    pretty_image = combine_images(img, dark=dark, max_ratio=max_ratio)
     return annotate_image(pretty_image, title)
+
+def museumify_bytes(stream_in, title, file_type, dark=.8, max_ratio=.9):
+    stream_in.seek(0)
+    file_bytes = np.asarray(bytearray(stream_in.read()), dtype=np.uint8)
+    img = cv2.imdecode(file_bytes, cv2.IMREAD_COLOR)
+    museum_img = museumify(img, title, dark=dark, max_ratio=max_ratio)
+    stream_out = io.BytesIO()
+    stream_out.write(cv2.imencode(file_type, museum_img)[1])
+    return stream_out

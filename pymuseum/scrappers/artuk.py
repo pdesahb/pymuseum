@@ -33,7 +33,7 @@ class ArtUKScrapper(Scrapper):
             entry_page = requests.get(entry_link, headers=self.headers)
             if not entry_page.ok:
                 continue
-            entry_page = bs4.BeautifulSoup(entry_page.content)
+            entry_page = bs4.BeautifulSoup(entry_page.content, "lxml")
             link = entry_page.find_all('div', class_='artwork')[0].img.attrs['src']
             metadata['url'] = link
             yield link, metadata
