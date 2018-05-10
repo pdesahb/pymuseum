@@ -1,6 +1,6 @@
-import cv2
+from background.scrappers.reddit import RedditScrapper
+from background.scrappers.artuk import ArtUKScrapper
 
-img =cv2.imread("/home/pdesahb/Pictures/background/Albert Aublet - Selene (1880).jpg", cv2.IMREAD_COLOR)
-print(img)
-cv2.imshow("lol", img)
-cv2.waitKey()
+
+scrapper = ArtUKScrapper(save_path='/home/pdesahb/Pictures/background/raw/')
+scrapper.scrap(100)

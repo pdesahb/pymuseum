@@ -2,6 +2,7 @@ import abc
 import pathlib
 import string
 
+import bs4
 import requests
 
 
@@ -12,6 +13,11 @@ class Scrapper(metaclass=abc.ABCMeta):
         self.save_path=pathlib.PosixPath(save_path)
         self.headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36'}
 
+    @staticmethod
+    def sanitize_filename(name):
+        invalid_chars = f"/"
+        return ''.join(c for c in name if c not in invalid_chars)
+
     @abc.abstractmethod
     def get_image_path(self, **metadata):
         pass
@@ -21,13 +27,17 @@ class Scrapper(metaclass=abc.ABCMeta):
         pass
 
     @abc.abstractmethod
-    def get_next_page(self):
+    def get_next_page_url(self):
         pass
 
-    @staticmethod
-    def sanitize_filename(name):
-        valid_chars = f"-_.() {string.ascii_letters}{string.digits}"
-        return ''.join(c for c in name if c in valid_chars)
+    def get_next_page(self):
+        next_url = self.url if self.page is None else self.get_next_page_url()
+        print(next_url)
+        page_req = requests.get(next_url, headers=self.headers)
+        if page_req.ok:
+            self.page = bs4.BeautifulSoup(page_req.content, 'lxml')
+            return True
+        return False
 
     def scrap(self, max_images):
         n_images = 0
