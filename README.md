@@ -34,6 +34,11 @@ To see all other usage:
 pymuseum --help
 ```
 
+Example of result
+
+![Mona Lisa transformed through PyMuseum](https://raw.githubusercontent.com/pdesahb/pymuseum/master/assets/monalisa.jpg)
+[Original image from Wikipedia](https://fr.wikipedia.org/wiki/La_Joconde#/media/File:Mona_Lisa,_by_Leonardo_da_Vinci,_from_C2RMF_retouched.jpg)
+
 ## Authors
 
 * **Pierre de Sahb** - *Initial work* - [pdesahb](https://github.com/pdesahb)

@@ -78,3 +78,9 @@ def museumify_bytes(stream_in, title, file_type, dark=.8, max_ratio=.9):
     stream_out = io.BytesIO()
     stream_out.write(cv2.imencode(file_type, museum_img)[1])
     return stream_out
+
+
+def museumify_file(file_in, file_out, title, dark=.8, max_ratio=.9):
+    img = cv2.imread(file_in, cv2.IMREAD_COLOR)
+    museum_img = museumify(img, title, dark=dark, max_ratio=max_ratio)
+    cv2.imwrite(file_out, museum_img)
