@@ -1,10 +1,12 @@
 import bs4
+import click
 import requests
 
-from .base import Scrapper
+from pymuseum.scrappers.base import AbstractScrapper
+from pymuseum.scrappers import register_cmd
 
 
-class RedditScrapper(Scrapper):
+class RedditScrapper(AbstractScrapper):
 
     def __init__(self, subreddit, *args, top=None, **kwargs):
         base_url = f"https://old.reddit.com/r/{subreddit}"
@@ -33,3 +35,14 @@ class RedditScrapper(Scrapper):
             }
             if link.split('.')[-1].lower() in ['jpg', 'png', 'bmp']:
                 yield link, metadata
+
+
+@register_cmd
+@click.command('reddit')
+@click.argument('subreddit', type=click.STRING)
+@click.option('-top', type=click.Choice(['hour', 'day', 'month', 'year', 'all']),
+              help="whether to scrap the top of the subreddit")
+@click.pass_context
+def reddit_cmd(ctx, subreddit, top):
+    scrapper = RedditScrapper(subreddit, top=top, save_path=ctx.obj['save_path'])
+    scrapper.scrap(ctx.obj['max_images'])

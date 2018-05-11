@@ -1,10 +1,12 @@
 import bs4
+import click
 import requests
 
-from .base import Scrapper
 
+from pymuseum.scrappers.base import AbstractScrapper
+from pymuseum.scrappers import register_cmd
 
-class ArtUKScrapper(Scrapper):
+class ArtUKScrapper(AbstractScrapper):
 
     def __init__(self, *args, **kwargs):
         self.url = "https://artuk.org/discover/artworks"
@@ -37,3 +39,12 @@ class ArtUKScrapper(Scrapper):
             link = entry_page.find_all('div', class_='artwork')[0].img.attrs['src']
             metadata['url'] = link
             yield link, metadata
+
+
+@register_cmd
+@click.command('artuk')
+@click.pass_context
+def artuk_cmd(ctx):
+    scrapper = ArtUKScrapper(save_path=ctx.obj['save_path'])
+    scrapper.scrap(ctx.obj['max_images'])
+

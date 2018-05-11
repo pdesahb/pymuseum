@@ -2,7 +2,6 @@ import abc
 import io
 import logging
 import pathlib
-import string
 import unicodedata
 
 import bs4
@@ -11,7 +10,7 @@ import requests
 from pymuseum import processing
 
 
-class Scrapper(metaclass=abc.ABCMeta):
+class AbstractScrapper(metaclass=abc.ABCMeta):
 
     def __init__(self, save_path='./'):
         self.logger = logging.getLogger('pymuseum')
