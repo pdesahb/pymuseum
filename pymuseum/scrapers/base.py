@@ -10,7 +10,7 @@ import requests
 from pymuseum import processing
 
 
-class AbstractScrapper(metaclass=abc.ABCMeta):
+class AbstractScraper(metaclass=abc.ABCMeta):
 
     def __init__(self, save_path='./'):
         self.logger = logging.getLogger('pymuseum')

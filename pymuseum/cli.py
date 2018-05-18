@@ -3,7 +3,7 @@ import pathlib
 
 import click
 
-from pymuseum.scrappers import REGISTERED_SCRAPPER_CMD
+from pymuseum.scrapers import REGISTERED_SCRAPER_CMD
 from pymuseum.processing import museumify_file
 
 
@@ -17,7 +17,7 @@ def scrap(ctx, to, n):
     ctx.obj['save_path'] = to
     ctx.obj['max_images'] = n
 
-for cmd in REGISTERED_SCRAPPER_CMD:
+for cmd in REGISTERED_SCRAPER_CMD:
     scrap.add_command(cmd)
 
 

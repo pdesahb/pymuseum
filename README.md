@@ -16,7 +16,7 @@ python setup.py install
 ## Usage
 
 You can use PyMuseum in two modes:
-* scrapping will download images from the web and transform them. Currently supported sources are:
+* scraping will download images from the web and transform them. Currently supported sources are:
     * [reddit](https://reddit.com): with beautiful subreddits such as [/r/museum](https://reddit.com/r/museum) or [/r/lepetitmusee](https://reddit.com/r/lepetitmusee)
     * [artuk](https://artuk.org/) who offers a large collection of paintings from the UK
     * more sources are comming, contributions are welcome!

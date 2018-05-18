@@ -3,10 +3,10 @@ import click
 import requests
 
 
-from pymuseum.scrappers.base import AbstractScrapper
-from pymuseum.scrappers import register_cmd
+from pymuseum.scrapers.base import AbstractScraper
+from pymuseum.scrapers import register_cmd
 
-class ArtUKScrapper(AbstractScrapper):
+class ArtUKscraper(AbstractScraper):
 
     def __init__(self, *args, **kwargs):
         self.url = "https://artuk.org/discover/artworks"
@@ -45,6 +45,6 @@ class ArtUKScrapper(AbstractScrapper):
 @click.command('artuk')
 @click.pass_context
 def artuk_cmd(ctx):
-    scrapper = ArtUKScrapper(save_path=ctx.obj['save_path'])
-    scrapper.scrap(ctx.obj['max_images'])
+    scraper = ArtUKscraper(save_path=ctx.obj['save_path'])
+    scraper.scrap(ctx.obj['max_images'])
 
