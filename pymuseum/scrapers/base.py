@@ -67,7 +67,7 @@ class AbstractScraper(metaclass=abc.ABCMeta):
                 try:
                     image_req = requests.get(image_link, stream=True, headers=self.headers)
                 except requests.exceptions.ConnectionError:
-                    logging.info('could not connect to %s', image_link)
+                    self.logger.info('could not connect to %s', image_link)
                     continue
                 if (image_req.status_code == 200) and not self.dry_run:
                     image = io.BytesIO()
