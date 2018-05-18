@@ -1,5 +1,12 @@
+import logging
+logger = logging.getLogger('pymuseum')
+logger.setLevel(logging.DEBUG)
+ch = logging.StreamHandler()
+logger.addHandler(ch)
+
 import glob
 import pathlib
+
 
 import click
 
@@ -12,10 +19,13 @@ from pymuseum.processing import museumify_file
               help="Directory to save images", show_default=True)
 @click.option('-n', type=click.INT, default=5, help="Max number of images to download",
               show_default=True)
+@click.option('-full-run/-dry-run', default=True, show_default=True,
+              help="whether to download images or just show links")
 @click.pass_context
-def scrap(ctx, to, n):
+def scrap(ctx, to, n, full_run):
     ctx.obj['save_path'] = to
     ctx.obj['max_images'] = n
+    ctx.obj['dry_run'] = not full_run
 
 for cmd in REGISTERED_SCRAPER_CMD:
     scrap.add_command(cmd)

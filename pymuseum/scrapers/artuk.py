@@ -45,6 +45,6 @@ class ArtUKscraper(AbstractScraper):
 @click.command('artuk')
 @click.pass_context
 def artuk_cmd(ctx):
-    scraper = ArtUKscraper(save_path=ctx.obj['save_path'])
+    scraper = ArtUKscraper(save_path=ctx.obj['save_path'], dry_run=ctx.obj['dry_run'])
     scraper.scrap(ctx.obj['max_images'])
 

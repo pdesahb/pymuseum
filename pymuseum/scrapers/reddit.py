@@ -44,5 +44,5 @@ class Redditscraper(AbstractScraper):
               help="whether to scrap the top of the subreddit")
 @click.pass_context
 def reddit_cmd(ctx, subreddit, top):
-    scraper = Redditscraper(subreddit, top=top, save_path=ctx.obj['save_path'])
+    scraper = Redditscraper(subreddit, top=top, save_path=ctx.obj['save_path'], dry_run=ctx.obj['dry_run'])
     scraper.scrap(ctx.obj['max_images'])

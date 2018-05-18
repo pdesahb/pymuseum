@@ -12,8 +12,9 @@ from pymuseum import processing
 
 class AbstractScraper(metaclass=abc.ABCMeta):
 
-    def __init__(self, save_path='./'):
+    def __init__(self, save_path='./', dry_run=False):
         self.logger = logging.getLogger('pymuseum')
+        self.dry_run = dry_run
         self.page = None
         self.save_path=pathlib.PosixPath(save_path)
         self.headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36'}
@@ -68,7 +69,7 @@ class AbstractScraper(metaclass=abc.ABCMeta):
                 except requests.exceptions.ConnectionError:
                     logging.info('could not connect to %s', image_link)
                     continue
-                if image_req.status_code == 200:
+                if (image_req.status_code == 200) and not self.dry_run:
                     image = io.BytesIO()
                     for chunk in image_req:
                         image.write(chunk)
@@ -79,6 +80,8 @@ class AbstractScraper(metaclass=abc.ABCMeta):
                         image.seek(0)
                         image_file.write(image.read())
                     n_images += 1
-                    if (n_images > max_images) and (max_images > 0):
-                        return
+                if self.dry_run:
+                    n_images += 1
+                if (n_images > max_images) and (max_images > 0):
+                    return
             self.logger.info('got %d/%d images', n_images, max_images)
